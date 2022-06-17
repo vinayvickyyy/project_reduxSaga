@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { ApiTypes } from "../redux/action_types/api_types";
 
+
 // import {EMAIL_REGEX} from "../Shared/Constant";
 function ModalAdd(props) {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ function ModalAdd(props) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
     const [state, setState] = useState({
         login: {
             first_name: '',
@@ -36,11 +38,15 @@ function ModalAdd(props) {
         setState({ ...state, login: login })
 
     }
+
+
     console.log("login", login);
     const submitFn = (e) => {
+
         e.preventDefault();
         const { errors } = state;
         const { login } = state;
+
 
         //validation for firstname
         if (!login.first_name) {
@@ -89,10 +95,12 @@ function ModalAdd(props) {
                     setState({ ...state, login: obj })
                     navigate('/dashboard');
                 }
-            })
+            });
             handleClose(true)
 
         }
+
+
         setState({ ...state, errors: errors });
     }
 
@@ -102,19 +110,38 @@ function ModalAdd(props) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
 
-        <>
+        <div>
 
 
-
-            <Button variant={props.buttoncolor} onClick={handleShow}>
-                {props.buttonname}
+            <Button variant="primary" onClick={handleShow}>
+                Launch demo modal
             </Button>
-
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{props.title}</Modal.Title>
+                    <Modal.Title>Modal Title</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
@@ -163,12 +190,12 @@ function ModalAdd(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={submitFn}>
-                        Save Changes
-                    </Button>
+                    {
+                        props.isEdit == "true" ? <Button variant="primary" >submit </Button> : <Button variant="primary" onClick={submitFn}>submit </Button>
+                    }
                 </Modal.Footer>
             </Modal>
-        </>
+        </div>
     );
 }
 

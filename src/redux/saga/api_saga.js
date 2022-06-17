@@ -25,8 +25,10 @@ function* uploading({ payload, callback }) {
     yield put({ type: LoaderTypes.LOADER_START });
     try {
 
+        console.log("payload", payload)
         yield put({ type: ApiTypes.POST_RESPONSE, data: payload });
         callback()
+        console.log("payload", payload)
     } catch (e) {
         // callback(true);
     }
