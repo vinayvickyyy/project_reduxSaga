@@ -2,6 +2,7 @@ import { ApiTypes } from "../action_types/api_types";
 
 const initialState = {
     userList: [],
+
 };
 
 export default function FetchReducer(state = initialState, action = null) {
