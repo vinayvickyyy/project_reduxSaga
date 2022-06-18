@@ -16,6 +16,7 @@ function Dashboard() {
     const handleClose = () => setShow(false);
     const handleShow = () => {
         const obj = {
+            profile: '',
             first_name: '',
             last_name: '',
             email: '',
@@ -85,6 +86,7 @@ function Dashboard() {
 
     const [state, setState] = useState({
         login: {
+            avatar: '',
             first_name: '',
             last_name: '',
             email: '',
@@ -112,6 +114,7 @@ function Dashboard() {
     console.log("login", login);
     const submitFn = (e) => {
         if (isAdd) {
+
 
             e.preventDefault();
             const { errors } = state;
@@ -151,7 +154,7 @@ function Dashboard() {
             }
 
             // setState({ ...state, errors: errors })
-            if (login.first_name && login.last_name && login.email && !errors.first_nameError && !errors.last_nameError && !errors.emailError) {
+            if (login.first_name && login.last_name && login.email && !errors.first_nameError && !errors.last_nameError && !errors.email_nameError) {
                 dispatch({
                     type: ApiTypes.POST_REQUEST,
                     payload: login,
@@ -168,37 +171,43 @@ function Dashboard() {
 
 
                 });
-                handleClose(true)
-
+                setState({ ...state, errors: errors });
             }
 
+            handleClose(true);
 
-            setState({ ...state, errors: errors });
         }
+
         else {
-            // if (login.first_name && login.last_name && login.email && !errors.first_nameError && !errors.last_nameError && !errors.emailError) {
-
             const { errors } = state;
+            if (login.first_name && login.last_name && login.email && !errors.first_nameError && !errors.last_nameError && !errors.email_nameError) {
 
-            const list = [...apiReduxData]
-            const { login } = state;
-            const getIndex = list.findIndex((each) =>
-                each.id === login.id)
+                const { login } = state;
 
-            list[getIndex] = login;
-            dispatch({
+                const list = [...apiReduxData]
 
-                type: ApiTypes.EDIT_REQUEST,
-                payload: list[getIndex]
+                const getIndex = list.findIndex((each) => each.id === login.id)
+                // console.log("each", data)
 
-            })
+                list[getIndex] = login;
+                dispatch({
+
+                    type: ApiTypes.EDIT_REQUEST,
+                    payload: list,
+
+                })
+
+                setState({ ...state, errors: errors })
+            }
+
+            handleClose(true);
+
         }
-        // setState({ ...state, errors: errors })
+
+
+
 
     }
-
-
-
 
 
 
@@ -221,6 +230,7 @@ function Dashboard() {
             <Table>
                 <thead>
                     <tr>
+                        <th>Profile</th>
                         <th>FirstName</th>
                         <th>LastName</th>
                         <th>email</th>
@@ -231,6 +241,7 @@ function Dashboard() {
                         apiReduxData.map((data, index) => {
                             return (
                                 <tr key={index}>
+                                    <td><img src={data.avatar} alt="profiles" /></td>
                                     <td>{data.first_name}</td>
                                     <td>{data.last_name}</td>
                                     <td>{data.email}</td>
@@ -258,6 +269,16 @@ function Dashboard() {
                 <Modal.Body>
 
                     <Form>
+
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label>Profile</Form.Label>
+                            <Form.Control
+                                type="file" placeholder="name@example.com" name="avatar" autoFocus value={login.profile} onChange={handleLogin}
+                            />
+
+                        </Form.Group>
+
+
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>First Name</Form.Label>
                             <Form.Control
