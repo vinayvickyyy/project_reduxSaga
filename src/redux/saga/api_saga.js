@@ -48,10 +48,22 @@ function* deleting({ payload, callback }) {
     yield put({ type: LoaderTypes.LOADER_STOP });
 }
 
+function* editing({ payload, callback }) {
+    yield put({ type: LoaderTypes.LOADER_START });
+    try {
+
+        yield put({ type: ApiTypes.EDIT_RESPONSE, data: payload });
+        callback()
+    } catch (e) {
+        // callback(true);
+    }
+    yield put({ type: LoaderTypes.LOADER_STOP });
+}
 
 
 export default function* AuthSaga() {
     yield takeEvery(ApiTypes.API_REQUEST, fetch);
     yield takeEvery(ApiTypes.POST_REQUEST, uploading);
     yield takeEvery(ApiTypes.DELETE_REQUEST, deleting);
+    yield takeEvery(ApiTypes.EDIT_REQUEST, editing); 
 }
